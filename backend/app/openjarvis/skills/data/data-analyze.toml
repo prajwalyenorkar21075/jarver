@@ -1,0 +1,17 @@
+# Data Analyze Skill
+[skill]
+name = "data-analyze"
+description = "Analyze data files and generate statistics"
+version = "1.0.0"
+author = "JARVIS"
+tags = ["data", "analysis", "statistics"]
+
+[[skill.steps]]
+tool_name = "file_read"
+arguments_template = { path = "{file_path}" }
+output_key = "raw_data"
+
+[[skill.steps]]
+tool_name = "code_interpreter"
+arguments_template = { code = "import json\ndata = {raw_data}\nif isinstance(data, list):\n    print(f'Records: {len(data)}')\n    if data and isinstance(data[0], dict):\n        print(f'Fields: {list(data[0].keys())}')" }
+output_key = "analysis"

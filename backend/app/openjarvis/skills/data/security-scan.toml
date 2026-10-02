@@ -1,0 +1,17 @@
+# Security Scan Skill
+[skill]
+name = "security-scan"
+description = "Scan files for security vulnerabilities and sensitive data"
+version = "1.0.0"
+author = "JARVIS"
+tags = ["security", "scanning", "audit"]
+
+[[skill.steps]]
+tool_name = "file_read"
+arguments_template = { path = "{file_path}" }
+output_key = "file_content"
+
+[[skill.steps]]
+tool_name = "think"
+arguments_template = { thought = "Scanning for security issues in: {file_content}" }
+output_key = "scan_result"

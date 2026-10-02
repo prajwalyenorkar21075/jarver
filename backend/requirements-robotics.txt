@@ -1,0 +1,6 @@
+# J.A.R.V.I.S. Backend — Robotics Extras
+# Install after core: pip install -r requirements-robotics.txt
+
+gymnasium>=0.29.0
+stable-baselines3>=2.1.0
+roboticstoolbox-python>=1.0.0

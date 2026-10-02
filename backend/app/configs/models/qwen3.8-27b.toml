@@ -1,0 +1,80 @@
+# Qwen 3.8 27B (via Groq) — Model Configuration
+# Tertiary model in JARVIS LLM cascade
+
+[model]
+id = "qwen3.8-27b"
+name = "Qwen 3.8 27B"
+provider = "groq"
+type = "fast"
+version = "3.8"
+description = "Qwen 3.8 27B via Groq — ultra-fast inference for quick responses"
+
+[capabilities]
+text_generation = true
+tool_use = true
+function_calling = true
+vision = false
+audio_input = false
+audio_output = false
+streaming = true
+structured_output = true
+json_mode = true
+system_prompt = true
+multi_turn = true
+code_execution = false
+image_generation = false
+embeddings = false
+reasoning = false
+extended_thinking = false
+
+[limits]
+context_window = 131_072
+max_output_tokens = 8_192
+max_tool_calls_per_turn = 32
+request_timeout_seconds = 30
+concurrent_requests = 200
+
+[parameters]
+default_temperature = 0.7
+default_top_p = 0.9
+default_frequency_penalty = 0.0
+default_presence_penalty = 0.0
+supports_temperature = true
+supports_top_p = true
+supports_frequency_penalty = true
+supports_presence_penalty = true
+supports_seed = true
+supports_logprobs = false
+supports_response_format = true
+supports_stop_sequences = true
+
+[api]
+endpoint = "https://api.groq.com/openai/v1/chat/completions"
+fallback_endpoint = ""
+fallback_model = ""
+auth_type = "bearer"
+auth_header = "Authorization"
+content_type = "application/json"
+streaming_format = "sse"
+supports_responses_api = false
+
+[pricing]
+input_per_1m_tokens = 0.20
+output_per_1m_tokens = 0.20
+cached_input_per_1m_tokens = 0.0
+currency = "USD"
+
+[features]
+prompt_caching = false
+parallel_tool_calls = true
+strict_tool_calling = false
+reasoning_effort_levels = []
+supported_modalities = ["text"]
+supported_output_formats = ["text", "json"]
+
+[fallback]
+chain = ["qwen3.8-27b"]
+on_error = "error"
+on_quota = "error"
+cooldown_seconds = 30
+max_retries = 1

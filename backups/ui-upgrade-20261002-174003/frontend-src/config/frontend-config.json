@@ -1,0 +1,25 @@
+{
+  "app": {
+    "name": "J.A.R.V.I.S.",
+    "version": "1.0.0",
+    "theme": "dark"
+  },
+  "backend": {
+    "url": "http://localhost:8000",
+    "wsUrl": "ws://localhost:8000"
+  },
+  "features": {
+    "voice": true,
+    "coding": true,
+    "biometrics": true,
+    "webSearch": true,
+    "vision": true,
+    "imageGeneration": true,
+    "documentAnalysis": true
+  },
+  "ui": {
+    "defaultView": "dashboard",
+    "showDiagnostics": true,
+    "enableAnimations": true
+  }
+}

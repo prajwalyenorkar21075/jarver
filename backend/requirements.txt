@@ -1,0 +1,35 @@
+# J.A.R.V.I.S. Backend — Core Dependencies
+# Install: pip install -r requirements.txt
+# For robotics extras: pip install -r requirements-robotics.txt
+
+fastapi>=0.141.1
+httpx>=0.28.1
+psutil>=7.2.2
+uvicorn[standard]>=0.54.0
+numpy>=1.24.0
+opencv-python>=4.8.0
+pydantic>=2.0.0
+torch>=2.0.0
+scipy>=1.10.0
+scikit-learn>=1.3.0
+pandas>=2.0.0
+ultralytics>=8.0.0
+websockets>=12.0
+python-multipart>=0.0.6
+pillow>=10.0.0
+aiofiles>=23.0.0
+cadquery>=2.5.0
+trimesh>=5.0.0
+SQLAlchemy>=2.0.0
+playwright>=1.40.0
+pocket-tts>=1.0.1
+tomli>=2.0.0; python_version < "3.11"
+pypdf>=4.0.0
+python-docx>=1.1.0
+
+# Optional (features degrade honestly without them):
+#   pytesseract          -> OCR in /api/image analysis
+#   sentence-transformers-> local embeddings for Indian/Vedic knowledge
+#   PyPDF2               -> PDF text extraction endpoint
+#   python-docx          -> DOCX text extraction endpoint
+#   soundfile            -> biometric audio I/O

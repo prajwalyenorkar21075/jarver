@@ -1,0 +1,17 @@
+# Web Summarize Skill
+[skill]
+name = "web-summarize"
+description = "Fetch and summarize web page content"
+version = "1.0.0"
+author = "JARVIS"
+tags = ["web", "summarization", "research"]
+
+[[skill.steps]]
+tool_name = "http_request"
+arguments_template = { url = "{url}", method = "GET" }
+output_key = "page_content"
+
+[[skill.steps]]
+tool_name = "think"
+arguments_template = { thought = "Summarizing web content from {url}: {page_content}" }
+output_key = "summary"

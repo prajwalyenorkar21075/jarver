@@ -1,0 +1,19 @@
+# JARVIS Code Assistant Preset
+
+[intelligence]
+default_model = "gpt-4o"
+routing_policy = "heuristic"
+
+[agent]
+default_agent = "orchestrator"
+max_turns = 15
+
+[tools]
+enabled = ["calculator", "think", "code_interpreter", "file_read", "file_write"]
+
+[security]
+guardrails_mode = "WARN"
+
+[learning]
+routing_enabled = true
+code_preference = true

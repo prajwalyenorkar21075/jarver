@@ -1,85 +1,156 @@
-import TopNavBar from './components/dashboard/TopNavBar'
+import { useEffect, useState } from 'react'
+import CADTopBar from './components/CADTopBar'
 import LeftSidebar from './components/dashboard/LeftSidebar'
-import WeatherWidget from './components/dashboard/WeatherWidget'
-import WorldClockWidget from './components/dashboard/WorldClockWidget'
-import ScheduleWidget from './components/dashboard/ScheduleWidget'
-import JarvisNebulaCore from './components/dashboard/JarvisNebulaCore'
-import QuickActionsWidget from './components/dashboard/QuickActionsWidget'
-import SystemStatusWidget from './components/dashboard/SystemStatusWidget'
-import RecentFilesWidget from './components/dashboard/RecentFilesWidget'
-import BottomBar from './components/dashboard/BottomBar'
+import { CADViewport } from './components/CADViewport'
+import CADCommandConsole from './components/CADCommandConsole'
+import RoboticsWorkspace from './components/robotics/RoboticsWorkspace'
+import IndustrialPanel from './components/industrial/IndustrialPanel'
+import MaintenancePanel from './components/industrial/MaintenancePanel'
+import TwinCellPanel from './components/industrial/TwinCellPanel'
+import SecurityGraphPanel from './components/security/SecurityGraphPanel'
+import { MemoryPanel, ProjectPanel, SettingsPanel } from './components/dashboard/SidePanels'
 import JarvisBrowserPanel from './components/JarvisBrowserPanel'
+import SafetyConfirmationModal from './components/dashboard/SafetyConfirmationModal'
+import BiometricSecurityModal from './components/dashboard/BiometricSecurityModal'
+import AutonomousCodingWorkspace from './components/coding/AutonomousCodingWorkspace'
+import { DiagnosticsDashboard } from './components/dashboard/DiagnosticsDashboard'
+import { CybersecurityDashboard } from './components/dashboard/CybersecurityDashboard'
+import { WebSearchPanel, VisionPanel, ImageGenerationPanel, DocumentAnalysisPanel } from './components/features'
 import { useJarvisStore } from './store/useJarvisStore'
 
+type ViewMode =
+  | 'cad'
+  | 'dashboard'
+  | 'robotics'
+  | 'project'
+  | 'diagnostics'
+  | 'ai'
+  | 'cybersecurity'
+  | 'assetgraph'
+  | 'industrial'
+  | 'maintenance'
+  | 'twincell'
+  | 'memory'
+  | 'settings'
+  | 'search'
+  | 'vision'
+  | 'image'
+  | 'document'
+
 export default function App() {
+  // Primary default view mode is now CAD engineering workspace
+  const [viewMode, setViewMode] = useState<ViewMode>('cad')
   const systemNotice = useJarvisStore((s) => s.systemNotice)
+  const fetchPersistentState = useJarvisStore((s) => s.fetchPersistentState)
+  const fetchTelemetry = useJarvisStore((s) => s.fetchTelemetry)
+  const fetchBiometricsStatus = useJarvisStore((s) => s.fetchBiometricsStatus)
+
+  // Auto-restore state on PC restart / app launch
+  useEffect(() => {
+    fetchPersistentState()
+    fetchTelemetry()
+    fetchBiometricsStatus()
+
+    const interval = setInterval(() => {
+      fetchTelemetry()
+      fetchBiometricsStatus()
+    }, 15000)
+
+    return () => clearInterval(interval)
+  }, [fetchPersistentState, fetchTelemetry, fetchBiometricsStatus])
+
+  // Listen for navigation events from LeftSidebar, TopBar, or command actions
+  useEffect(() => {
+    const handleNavigate = (e: CustomEvent) => {
+      const targetView = (e.detail?.view || 'cad') as ViewMode
+      setViewMode(targetView === 'dashboard' ? 'cad' : targetView)
+    }
+
+    window.addEventListener('jarvis-navigate', handleNavigate as EventListener)
+    return () => window.removeEventListener('jarvis-navigate', handleNavigate as EventListener)
+  }, [])
+
+  const renderWorkspace = () => {
+    switch (viewMode) {
+      case 'robotics':
+        return <RoboticsWorkspace />
+      case 'project':
+        return <ProjectPanel />
+      case 'diagnostics':
+      case 'ai':
+        return <DiagnosticsDashboard />
+      case 'cybersecurity':
+        return <CybersecurityDashboard />
+      case 'assetgraph':
+        return <SecurityGraphPanel />
+      case 'industrial':
+        return <IndustrialPanel />
+      case 'maintenance':
+        return <MaintenancePanel />
+      case 'twincell':
+        return <TwinCellPanel />
+      case 'memory':
+        return <MemoryPanel />
+      case 'settings':
+        return <SettingsPanel />
+      case 'search':
+        return <WebSearchPanel />
+      case 'vision':
+        return <VisionPanel />
+      case 'image':
+        return <ImageGenerationPanel />
+      case 'document':
+        return <DocumentAnalysisPanel />
+      case 'cad':
+      default:
+        return <CADViewport />
+    }
+  }
 
   return (
-    <div className="relative flex h-screen max-h-screen w-full flex-col justify-between overflow-hidden bg-black font-sans select-none text-white">
-      {/* 1. Deep Obsidian Stark Lab Backdrop */}
+    <div className="relative flex h-screen max-h-screen w-full flex-col justify-between overflow-hidden bg-[#030612] font-sans select-none text-white">
+      {/* Engineering Blueprint Grid Background */}
       <div className="pointer-events-none fixed inset-0 z-0 bg-[#030612]" />
-      {/* Volumetric Hologram Core Illumination matching Iron Man Lab */}
-      <div
-        className="pointer-events-none fixed inset-0 z-0 opacity-80"
-        style={{
-          background: 'radial-gradient(ellipse 55% 45% at 50% 50%, rgba(255, 145, 0, 0.13), rgba(0, 229, 255, 0.05), transparent 75%)',
-        }}
-      />
-
-      {/* Subtle Cybernetic Grid Overlay */}
       <div
         className="pointer-events-none fixed inset-0 z-0 opacity-15"
         style={{
           backgroundImage:
-            'linear-gradient(to right, rgba(0, 229, 255, 0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 229, 255, 0.12) 1px, transparent 1px)',
-          backgroundSize: '48px 48px',
-          maskImage: 'radial-gradient(ellipse 80% 70% at 50% 50%, black 20%, transparent 80%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 50%, black 20%, transparent 80%)',
+            'linear-gradient(to right, rgba(0, 229, 255, 0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 229, 255, 0.08) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
         }}
       />
 
-      {/* Desktop Automation Action Toast */}
+      {/* Global Automation / Notice Toast */}
       {systemNotice && (
-        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 rounded-full border border-cyan-400/80 bg-[#060e20] px-6 py-2.5 font-mono text-xs text-cyan-300 transition-all">
+        <div className="fixed top-14 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 rounded-full border border-cyan-400 bg-[#051126] px-5 py-2 font-mono text-xs text-cyan-200 shadow-[0_0_20px_rgba(0,229,255,0.35)] transition-all animate-bounce">
           <span className="h-2 w-2 rounded-full bg-cyan-400 animate-ping" />
-          <span className="font-bold tracking-wider text-white">PC AUTOMATION:</span>
+          <span className="font-bold tracking-wider text-white">J.A.R.V.I.S.:</span>
           <span className="text-cyan-200">{systemNotice}</span>
         </div>
       )}
 
-      {/* 2. Top Header Navigation */}
-      <TopNavBar />
+      {/* 1. TOP CAD TOOLBAR & MENUS (Inspired by AutoCAD + J.A.R.V.I.S. Core) */}
+      <CADTopBar />
 
-      {/* 3. Left Hexagonal Dock Sidebar */}
-      <LeftSidebar />
+      {/* 2. MIDDLE WORKSPACE AREA (Left Sidebar + Central Interactive Viewport / Workspace) */}
+      <div className="relative z-10 flex min-h-0 flex-1 w-full overflow-hidden">
+        {/* Left Collapsible Engineering Navigation Sidebar */}
+        <LeftSidebar />
 
-      {/* 4. Main 3-Column Hologram Dashboard */}
-      <main className="relative z-10 flex flex-1 items-center justify-between px-6 lg:pl-28 lg:pr-8 py-1 max-w-[1720px] mx-auto w-full gap-4 xl:gap-8 overflow-hidden">
-        {/* Left Column Widgets */}
-        <div className="hidden md:flex flex-col gap-3 justify-center shrink-0 w-[280px] xl:w-[320px]">
-          <WeatherWidget />
-          <WorldClockWidget />
-          <ScheduleWidget />
-        </div>
+        {/* Central Workspace Canvas */}
+        <main className="relative flex flex-1 min-w-0 min-h-0 flex-col overflow-hidden bg-[#030713]">
+          {renderWorkspace()}
+        </main>
+      </div>
 
-        {/* Center Stage: Cybernetic Hexagon Frame & 3D Glowing Particle Orb */}
-        <div className="flex flex-1 items-center justify-center min-w-0">
-          <JarvisNebulaCore />
-        </div>
+      {/* 3. BOTTOM AUTOCAD-STYLE COMMAND CONSOLE */}
+      <CADCommandConsole />
 
-        {/* Right Column Widgets */}
-        <div className="hidden md:flex flex-col gap-3 justify-center shrink-0 w-[280px] xl:w-[320px]">
-          <QuickActionsWidget />
-          <SystemStatusWidget />
-          <RecentFilesWidget />
-        </div>
-      </main>
-
-      {/* 5. Bottom Navigation & Media Command Bar */}
-      <BottomBar />
-
-      {/* 6. Choreographed In-App Browser Panel */}
+      {/* In-App Auxiliary Workspaces & Dialogs */}
       <JarvisBrowserPanel />
+      <SafetyConfirmationModal />
+      <BiometricSecurityModal />
+      <AutonomousCodingWorkspace />
     </div>
   )
 }

@@ -1,0 +1,26 @@
+{
+  "validated": [],
+  "rejected": [
+    {
+      "url": "https://www.google.com/search?q=What%20is%20Atman%3F",
+      "title": "Search Results for 'What is Atman?'",
+      "content": "Web search initiated for 'What is Atman?'. Direct internet links available.",
+      "author": null,
+      "translator": null,
+      "commentator": null,
+      "publication": null,
+      "publication_date": null,
+      "source_type": "secondary_source",
+      "language": "English",
+      "retrieved_at": "2026-10-02T13:10:49.363814",
+      "content_hash": "27ed9b3033338b58",
+      "validation_status": "pending",
+      "validation_notes": "Fallback search link - requires manual verification",
+      "domain": "",
+      "category": "",
+      "topics": [],
+      "concepts": []
+    }
+  ],
+  "updated_at": "2026-10-02T13:10:49.363814"
+}

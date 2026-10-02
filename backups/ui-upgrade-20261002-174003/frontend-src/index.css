@@ -1,0 +1,72 @@
+@import 'tailwindcss';
+
+:root {
+  color-scheme: dark;
+  --hud-cyan: #00e5ff;
+  --hud-cyan-dim: rgba(0, 229, 255, 0.25);
+  --hud-blue: #3b82f6;
+  --hud-bg-void: #020612;
+  --hud-bg-surface: #040a18;
+  --hud-bg-card: #071530;
+  --hud-bg-card-hover: #0b2149;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #020612;
+  color: #cbd5e1;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+}
+
+/* Precision Sci-Fi Cyan Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020612;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #091b38;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 229, 255, 0.35);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00e5ff;
+}
+
+/* HUD Cyber Utilities */
+.hud-border {
+  border: 1px solid rgba(0, 229, 255, 0.35);
+}
+
+.hud-border-glow {
+  border: 1px solid #00e5ff;
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.25);
+}
+
+.hud-panel {
+  background-color: #040a18;
+  border: 1px solid rgba(0, 229, 255, 0.3);
+}
+
+.hud-card {
+  background-color: #071530;
+  border: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.hud-card:hover {
+  background-color: #0b2149;
+  border-color: rgba(0, 229, 255, 0.5);
+}
+

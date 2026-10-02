@@ -1,0 +1,88 @@
+# GPT-6 Astra — Model Configuration
+# Primary frontier reasoning model for JARVIS
+
+[model]
+id = "gpt-6-astra"
+name = "GPT-6 Astra"
+provider = "openai"
+type = "frontier"
+version = "2026-06"
+description = "OpenAI GPT-6 Astra — frontier reasoning model with advanced tool use, vision, and long-context capabilities"
+
+[capabilities]
+text_generation = true
+tool_use = true
+function_calling = true
+vision = true
+audio_input = false
+audio_output = false
+streaming = true
+structured_output = true
+json_mode = true
+system_prompt = true
+multi_turn = true
+code_execution = false
+image_generation = false
+embeddings = false
+reasoning = true
+extended_thinking = true
+
+[limits]
+context_window = 1_000_000
+max_output_tokens = 128_000
+max_tool_calls_per_turn = 128
+request_timeout_seconds = 120
+concurrent_requests = 50
+
+[parameters]
+default_temperature = 0.7
+default_top_p = 1.0
+default_frequency_penalty = 0.0
+default_presence_penalty = 0.0
+supports_temperature = true
+supports_top_p = true
+supports_frequency_penalty = true
+supports_presence_penalty = true
+supports_seed = true
+supports_logprobs = true
+supports_response_format = true
+supports_stop_sequences = true
+
+[api]
+endpoint = "https://api.openai.com/v1/responses"
+fallback_endpoint = "https://api.openai.com/v1/chat/completions"
+fallback_model = "gpt-4o-mini"
+auth_type = "bearer"
+auth_header = "Authorization"
+content_type = "application/json"
+streaming_format = "sse"
+supports_responses_api = true
+
+[pricing]
+input_per_1m_tokens = 5.0
+output_per_1m_tokens = 15.0
+cached_input_per_1m_tokens = 1.25
+currency = "USD"
+
+[features]
+prompt_caching = true
+parallel_tool_calls = true
+strict_tool_calling = true
+reasoning_effort_levels = ["low", "medium", "high"]
+supported_modalities = ["text", "image"]
+supported_output_formats = ["text", "json", "json_schema"]
+
+[quality_benchmarks]
+mmlu = 92.0
+human_eval = 95.0
+math = 90.0
+reasoning = 91.0
+coding = 93.0
+multilingual = 88.0
+
+[fallback]
+chain = ["gpt-6-astra", "gemini-3.1-flash-lite-preview", "qwen/qwen3.8-27b"]
+on_error = "next"
+on_quota = "next"
+cooldown_seconds = 60
+max_retries = 2

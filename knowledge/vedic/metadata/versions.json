@@ -1,0 +1,31 @@
+{
+  "versions": [
+    {
+      "version": "b286fd708d7e",
+      "timestamp": "2026-10-02T13:08:00.623560",
+      "documents_added": 0,
+      "documents_updated": 0,
+      "documents_removed": 0,
+      "sources_changed": [],
+      "description": "Corpus loaded and validated"
+    },
+    {
+      "version": "b286fd708d7e",
+      "timestamp": "2026-10-02T13:10:48.942854",
+      "documents_added": 0,
+      "documents_updated": 0,
+      "documents_removed": 0,
+      "sources_changed": [],
+      "description": "Corpus loaded and validated"
+    }
+  ],
+  "current_version": {
+    "version": "b286fd708d7e",
+    "timestamp": "2026-10-02T13:10:48.942854",
+    "documents_added": 0,
+    "documents_updated": 0,
+    "documents_removed": 0,
+    "sources_changed": [],
+    "description": "Corpus loaded and validated"
+  }
+}

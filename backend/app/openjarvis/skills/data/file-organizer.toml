@@ -1,0 +1,17 @@
+# File Organizer Skill
+[skill]
+name = "file-organizer"
+description = "Organize files into categorized directories"
+version = "1.0.0"
+author = "JARVIS"
+tags = ["files", "organization", "automation"]
+
+[[skill.steps]]
+tool_name = "file_read"
+arguments_template = { path = "{source_dir}" }
+output_key = "dir_listing"
+
+[[skill.steps]]
+tool_name = "think"
+arguments_template = { thought = "Analyzing file types and planning organization strategy for: {dir_listing}" }
+output_key = "plan"

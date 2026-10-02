@@ -1,0 +1,80 @@
+# Gemini 3.1 Flash Lite Preview — Model Configuration
+# Secondary model in JARVIS LLM cascade
+
+[model]
+id = "gemini-3.1-flash-lite-preview"
+name = "Gemini 3.1 Flash Lite Preview"
+provider = "google"
+type = "efficient"
+version = "3.1"
+description = "Google Gemini 3.1 Flash Lite — fast, efficient model for general tasks"
+
+[capabilities]
+text_generation = true
+tool_use = true
+function_calling = true
+vision = true
+audio_input = false
+audio_output = false
+streaming = true
+structured_output = true
+json_mode = true
+system_prompt = true
+multi_turn = true
+code_execution = false
+image_generation = false
+embeddings = false
+reasoning = false
+extended_thinking = false
+
+[limits]
+context_window = 1_000_000
+max_output_tokens = 8_192
+max_tool_calls_per_turn = 64
+request_timeout_seconds = 60
+concurrent_requests = 100
+
+[parameters]
+default_temperature = 0.7
+default_top_p = 0.95
+default_frequency_penalty = 0.0
+default_presence_penalty = 0.0
+supports_temperature = true
+supports_top_p = true
+supports_frequency_penalty = false
+supports_presence_penalty = false
+supports_seed = false
+supports_logprobs = false
+supports_response_format = true
+supports_stop_sequences = true
+
+[api]
+endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent"
+fallback_endpoint = ""
+fallback_model = ""
+auth_type = "api_key_param"
+auth_header = "x-goog-api-key"
+content_type = "application/json"
+streaming_format = "sse"
+supports_responses_api = false
+
+[pricing]
+input_per_1m_tokens = 0.10
+output_per_1m_tokens = 0.40
+cached_input_per_1m_tokens = 0.025
+currency = "USD"
+
+[features]
+prompt_caching = true
+parallel_tool_calls = true
+strict_tool_calling = false
+reasoning_effort_levels = []
+supported_modalities = ["text", "image"]
+supported_output_formats = ["text", "json"]
+
+[fallback]
+chain = ["gemini-3.1-flash-lite-preview", "qwen/qwen3.8-27b"]
+on_error = "next"
+on_quota = "next"
+cooldown_seconds = 30
+max_retries = 2

@@ -1,116 +1,135 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useJarvisStore, playHudChirp } from '../../store/useJarvisStore'
 
 interface NavItem {
   id: string
   label: string
-  icon: (active: boolean) => React.ReactNode
+  glyph: string
+  views: string[]
+  action: 'navigate' | 'coding' | 'browser'
 }
 
-export default function LeftSidebar() {
-  const [activeTab, setActiveTab] = useState('home')
+const ITEMS: NavItem[] = [
+  { id: 'home', label: 'HOME', glyph: '⌂', views: ['cad', 'dashboard'], action: 'navigate' },
+  { id: 'project', label: 'PROJECT', glyph: '▤', views: ['project'], action: 'navigate' },
+  { id: 'cad', label: 'CAD', glyph: '⬢', views: ['cad'], action: 'navigate' },
+  { id: 'robotics', label: 'ROBOTICS', glyph: '🤖', views: ['robotics'], action: 'navigate' },
+  { id: 'ai', label: 'AI', glyph: '◉', views: ['diagnostics', 'ai'], action: 'navigate' },
+  { id: 'cybersecurity', label: 'CYBERSECURITY', glyph: '🛡', views: ['cybersecurity'], action: 'navigate' },
+  { id: 'assetgraph', label: 'ASSET GRAPH', glyph: '◈', views: ['assetgraph'], action: 'navigate' },
+  { id: 'industrial', label: 'INDUSTRIAL', glyph: '⚙', views: ['industrial'], action: 'navigate' },
+  { id: 'maintenance', label: 'MAINTENANCE', glyph: '✚', views: ['maintenance'], action: 'navigate' },
+  { id: 'twincell', label: 'TWIN + CELL', glyph: '⧉', views: ['twincell'], action: 'navigate' },
+  { id: 'files', label: 'FILES', glyph: '🗀', views: [], action: 'coding' },
+  { id: 'browser', label: 'BROWSER', glyph: '🌐', views: [], action: 'browser' },
+  { id: 'memory', label: 'MEMORY', glyph: '☑', views: ['memory'], action: 'navigate' },
+  { id: 'tools', label: 'TOOLS', glyph: '⚒', views: ['vision', 'image', 'document'], action: 'navigate' },
+  { id: 'settings', label: 'SETTINGS', glyph: '⚙', views: ['settings'], action: 'navigate' },
+]
 
-  const items: NavItem[] = [
-    {
-      id: 'home',
-      label: 'Home',
-      icon: (active) => (
-        <svg className={`h-4 w-4 ${active ? 'text-white' : 'text-white/60'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-          <polyline points="9 22 9 12 15 12 15 22" />
-        </svg>
-      ),
-    },
-    {
-      id: 'chat',
-      label: 'Chat',
-      icon: (active) => (
-        <svg className={`h-4 w-4 ${active ? 'text-white' : 'text-white/60'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-        </svg>
-      ),
-    },
-    {
-      id: 'projects',
-      label: 'Projects',
-      icon: (active) => (
-        <svg className={`h-4 w-4 ${active ? 'text-white' : 'text-white/60'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-        </svg>
-      ),
-    },
-    {
-      id: 'apps',
-      label: 'Apps',
-      icon: (active) => (
-        <svg className={`h-4 w-4 ${active ? 'text-white' : 'text-white/60'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <rect x="3" y="3" width="7" height="7" />
-          <rect x="14" y="3" width="7" height="7" />
-          <rect x="14" y="14" width="7" height="7" />
-          <rect x="3" y="14" width="7" height="7" />
-        </svg>
-      ),
-    },
-    {
-      id: 'tools',
-      label: 'Tools',
-      icon: (active) => (
-        <svg className={`h-4 w-4 ${active ? 'text-white' : 'text-white/60'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-        </svg>
-      ),
-    },
-    {
-      id: 'files',
-      label: 'Files',
-      icon: (active) => (
-        <svg className={`h-4 w-4 ${active ? 'text-white' : 'text-white/60'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-          <polyline points="14 2 14 8 20 8" />
-          <line x1="16" y1="13" x2="8" y2="13" />
-          <line x1="16" y1="17" x2="8" y2="17" />
-          <polyline points="10 9 9 9 8 9" />
-        </svg>
-      ),
-    },
-  ]
+export default function LeftSidebar() {
+  const [activeView, setActiveView] = useState('cad')
+  const [collapsed, setCollapsed] = useState(false)
+  const toggleCodingMode = useJarvisStore((s) => s.toggleCodingMode)
+  const isCodingMode = useJarvisStore((s) => s.isCodingMode)
+  const openPanel = useJarvisStore((s) => s.openPanel)
+
+  useEffect(() => {
+    const onNavigate = (e: CustomEvent) => {
+      setActiveView(String(e.detail?.view ?? 'cad'))
+    }
+    window.addEventListener('jarvis-navigate', onNavigate as EventListener)
+    return () => window.removeEventListener('jarvis-navigate', onNavigate as EventListener)
+  }, [])
+
+  const handleItemClick = (it: NavItem) => {
+    playHudChirp()
+    if (it.action === 'navigate') {
+      const view = it.id === 'home' ? 'cad' : it.id === 'ai' ? 'diagnostics' : it.id
+      setActiveView(view)
+      window.dispatchEvent(new CustomEvent('jarvis-navigate', { detail: { view } }))
+    } else if (it.action === 'coding') {
+      toggleCodingMode(true)
+    } else if (it.action === 'browser') {
+      openPanel(
+        { type: 'search', title: 'J.A.R.V.I.S. CAD Browser & Standards', query: 'ISO engineering CAD standards' },
+        'center'
+      )
+    }
+  }
+
+  const isActive = (it: NavItem) => {
+    if (it.action === 'coding') return isCodingMode
+    return it.views.includes(activeView)
+  }
 
   return (
-    <aside className="fixed left-5 top-1/2 -translate-y-1/2 z-20 hidden lg:flex flex-col items-center gap-5 rounded-2xl border border-cyan-500/40 bg-[#040a18]/95 p-2 transition-all shadow-[0_0_20px_rgba(0,229,255,0.1)]">
-      {items.map((it) => {
-        const active = activeTab === it.id
-        return (
-          <button
-            key={it.id}
-            type="button"
-            onClick={() => setActiveTab(it.id)}
-            className="group flex flex-col items-center cursor-pointer transition-all"
-            title={it.label}
-          >
-            {active ? (
-              <div className="relative flex h-11 w-11 items-center justify-center">
-                <svg className="absolute inset-0 h-full w-full" viewBox="0 0 44 44" fill="none">
-                  <polygon
-                    points="22,2 41,12 41,32 22,42 3,32 3,12"
-                    fill="rgba(0, 229, 255, 0.2)"
-                    stroke="#00e5ff"
-                    strokeWidth="2"
-                  />
-                </svg>
-                <div className="relative z-10 flex flex-col items-center text-[#00e5ff]">
-                  {it.icon(true)}
-                  <span className="text-[9px] font-mono font-bold text-[#00e5ff] mt-0.5">{it.label}</span>
-                </div>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center p-2 rounded-xl text-white/50 hover:text-[#00e5ff] hover:bg-[#071530] transition-all">
-                {it.icon(false)}
-                <span className="text-[9px] font-mono mt-1 opacity-70 group-hover:opacity-100 group-hover:text-cyan-300">{it.label}</span>
-              </div>
-            )}
-          </button>
-        )
-      })}
+    <aside
+      className={`relative z-20 flex flex-col shrink-0 border-r border-cyan-500/20 bg-[#030713] transition-all duration-200 select-none ${
+        collapsed ? 'w-14' : 'w-48'
+      }`}
+    >
+      {/* Sidebar Header with Collapse / Expand Toggle */}
+      <div className="flex h-10 items-center justify-between border-b border-cyan-500/20 px-3">
+        {!collapsed && (
+          <span className="font-mono text-[10px] font-bold tracking-[0.25em] text-[#00e5ff]">
+            NAVIGATION
+          </span>
+        )}
+        <button
+          type="button"
+          onClick={() => {
+            playHudChirp()
+            setCollapsed(!collapsed)
+          }}
+          title={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
+          className="cursor-pointer ml-auto rounded p-1 font-mono text-cyan-300 hover:bg-cyan-500/20 hover:text-white transition-colors"
+        >
+          {collapsed ? '»' : '«'}
+        </button>
+      </div>
+
+      {/* Nav List */}
+      <nav className="flex-1 overflow-y-auto py-2 px-1.5 space-y-1">
+        {ITEMS.map((it) => {
+          const active = isActive(it)
+          return (
+            <button
+              key={it.id}
+              type="button"
+              onClick={() => handleItemClick(it)}
+              title={collapsed ? it.label : undefined}
+              className={`group flex w-full cursor-pointer items-center gap-2.5 rounded px-2.5 py-2 transition-all select-none active:scale-95 ${
+                active
+                  ? 'border-l-2 border-[#00e5ff] bg-[#00e5ff]/15 text-white font-bold'
+                  : 'border-l-2 border-transparent text-cyan-100/60 hover:bg-[#071328] hover:text-[#00e5ff]'
+              }`}
+            >
+              <span className={`font-mono text-[14px] leading-none shrink-0 ${active ? 'text-[#00e5ff]' : 'text-cyan-400/70 group-hover:text-[#00e5ff]'}`}>
+                {it.glyph}
+              </span>
+              {!collapsed && (
+                <span className={`font-mono text-[11px] tracking-wider truncate text-left ${active ? 'text-[#00e5ff]' : 'text-cyan-100/80 group-hover:text-white'}`}>
+                  {it.label}
+                </span>
+              )}
+            </button>
+          )
+        })}
+      </nav>
+
+      {/* Bottom Engineering Tag */}
+      <div className="border-t border-cyan-500/20 p-2 text-center">
+        {!collapsed ? (
+          <div className="font-mono text-[9px] text-cyan-400/40 tracking-widest">
+            STARK IND. CAD
+          </div>
+        ) : (
+          <div className="font-mono text-[9px] text-[#00e5ff]">
+            ⬢
+          </div>
+        )}
+      </div>
     </aside>
   )
 }

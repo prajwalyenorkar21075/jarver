@@ -1,0 +1,17 @@
+# Code Lint Skill
+[skill]
+name = "code-lint"
+description = "Run linting and static analysis on code files"
+version = "1.0.0"
+author = "JARVIS"
+tags = ["code", "quality", "linting"]
+
+[[skill.steps]]
+tool_name = "file_read"
+arguments_template = { path = "{file_path}" }
+output_key = "source_code"
+
+[[skill.steps]]
+tool_name = "code_interpreter"
+arguments_template = { code = "import ast, sys\ntry:\n    ast.parse(open('{file_path}').read())\n    print('Syntax OK')\nexcept SyntaxError as e:\n    print(f'Syntax Error: {e}')" }
+output_key = "lint_result"

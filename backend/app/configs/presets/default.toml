@@ -1,0 +1,30 @@
+# JARVIS Configuration Preset - Default
+
+[intelligence]
+default_model = "gpt-4o"
+fallback_model = "gpt-4o-mini"
+routing_policy = "heuristic"
+
+[agent]
+default_agent = "orchestrator"
+max_turns = 10
+loop_guard_max_identical = 3
+loop_guard_max_total = 50
+
+[tools]
+enabled = ["calculator", "think", "code_interpreter", "http_request", "file_read", "file_write"]
+
+[security]
+guardrails_mode = "WARN"
+ssrf_protection = true
+pii_scanning = true
+secret_scanning = true
+
+[workspace]
+enabled = true
+heartbeat_enabled = true
+heartbeat_interval = 3600
+
+[learning]
+routing_enabled = true
+complexity_analysis = true

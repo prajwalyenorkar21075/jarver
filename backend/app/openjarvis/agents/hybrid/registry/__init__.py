@@ -1,0 +1,1 @@
+"""Hybrid agent registry definitions."""
